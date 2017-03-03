@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import './global.css';
+import TWButton from './components/TWButton';
+
+function alertFunction(){
+    alert('TIMEEEEE!!!');
+}
+
+const button = <TWButton onClick={alertFunction} text={'Start'}/>;
 
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
-  document.getElementById('root')
+    button,
+    document.getElementById('root')
 );

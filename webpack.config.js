@@ -9,10 +9,17 @@ module.exports = {
     },
     module: {
         loaders: [{
-              test: /\.js$/,
-              loaders: ['babel-loader'],
-              exclude: /node_modules/,
-              include: path.join(__dirname, 'app')
-        }]
-    }
+            test: /\.js$/,
+            loaders: ['babel-loader'],
+            exclude: /node_modules/,
+            include: path.join(__dirname, 'app'),
+        },{
+            test: /\.css?$/,
+            loaders: [
+                'style-loader','css-loader'
+            ],
+            include: path.join(__dirname, 'app')
+        }
+        ]
+    },
 };

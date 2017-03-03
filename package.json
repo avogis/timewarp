@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.15.0",
+    "firebase": "^3.7.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
@@ -20,16 +21,18 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-2": "^6.22.0",
+    "css-loader": "^0.26.2",
     "eslint": "^3.16.1",
     "eslint-plugin-react": "^6.10.0",
     "nodemon": "^1.11.0",
+    "style-loader": "^0.13.2",
     "webpack": "^2.2.1"
   },
   "scripts": {
     "test": "ava",
     "lint": "eslint . --ext .js --ext .jsx; exit 0",
-    "builddev": "./node_modules/.bin/webpack --config webpack.config.js --progress --colors",
-    "start": "nodemon server.js --exec babel-node --presets es2015,stage-2"
+    "builddev": "webpack --config webpack.config.js --progress --colors",
+    "start": "webpack --config webpack.config.js --progress --colors && nodemon server.js --exec babel-node --presets es2015,stage-2"
   },
   "repository": {
     "type": "git",
