@@ -22,6 +22,19 @@ function getDateTime() {
     };
 }
 
+function calculateDateBalance(today, stopDate) {
+    const database = firebase.database();
+    const userKey = `${DBCONFIG['user']}/${today}`;
+    return database.ref(userKey).once('value').then((snapshot) => {
+        const startDate = snapshot.val().start;
+        const dateDiff = stopDate - startDate;
+        const minutes = ((dateDiff % 86400000) % 3600000) / 60000;
+        const timebalance = Math.round(minutes - 480);
+        return timebalance;
+    });
+
+}
+
 function startWarping(){
     const { today, timestamp } = getDateTime();
     const startTime = {
@@ -29,6 +42,7 @@ function startWarping(){
     };
 
     writeToDB(today, startTime);
+    displayBalance();
 }
 
 function stopWarping() {
@@ -37,7 +51,27 @@ function stopWarping() {
     const keyPath = `${today}/stop`;
 
     writeToDB(keyPath, stopTime);
+    const timebalance = Promise.resolve(calculateDateBalance(today, stopTime));
+    timebalance.then(function(balance) {
+        writeToDB(`${today}/balance`, balance);
+        displayBalance();
+    });
+}
 
+function displayBalance() {
+    const { today } = getDateTime();
+    firebase.database().ref(`${DBCONFIG['user']}/${today}/balance`).on('value', (snapshot) => {
+        const totalMinutes = snapshot.val();
+        if (totalMinutes !== null){
+            const hours = Math.round(totalMinutes / 60);
+            const minutes = Math.round(totalMinutes % 60);
+            document.getElementById('balance').innerHTML =
+            'Your balance is ' + hours + ' hours ' + minutes + ' minutes.';
+        }else{
+            document.getElementById('balance').innerHTML =
+            'Have a great day timewarping';
+        }
+    });
 }
 
 const rootElement = (
