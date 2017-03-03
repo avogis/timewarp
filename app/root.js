@@ -6,29 +6,34 @@ import * as firebase from 'firebase';
 import DBCONFIG from '../.dbconfig.json';
 
 
-firebase.initializeApp(DBCONFIG);
+firebase.initializeApp(DBCONFIG['credentials']);
 
 function writeToDB(key, value) {
     const database = firebase.database();
+    const userKey = `${DBCONFIG['user']}/${key}`;
+    database.ref(userKey).set(value);
+}
 
-    database.ref(key).set(value);
+function getDateTime() {
+    const date = new Date(Date.now());
+    return {
+        today: date.toISOString().substring(0, 10),
+        timestamp: date.getTime()
+    };
 }
 
 function startWarping(){
-    const timestamp = new Date(Date.now());
-    const today = timestamp.toISOString().substring(0, 10);
+    const { today, timestamp } = getDateTime();
     const startTime = {
-        start: timestamp.getTime()
+        start: timestamp
     };
 
     writeToDB(today, startTime);
 }
 
 function stopWarping() {
-    const timestamp = new Date(Date.now());
-    const today = timestamp.toISOString().substring(0, 10);
-
-    const stopTime = timestamp.getTime();
+    const { today, timestamp } = getDateTime();
+    const stopTime = timestamp;
     const keyPath = `${today}/stop`;
 
     writeToDB(keyPath, stopTime);

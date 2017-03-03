@@ -1,7 +1,10 @@
 {
-    "apiKey": "",
-    "authDomain": "",
-    "databaseURL": "",
-    "storageBucket": "",
-    "messagingSenderId": ""
+    "credentials": {
+        "apiKey": "",
+        "authDomain": "",
+        "databaseURL": "",
+        "storageBucket": "",
+        "messagingSenderId": ""
+    },
+    "user": ""
 }
