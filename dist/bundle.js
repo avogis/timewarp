@@ -9525,12 +9525,6 @@ var _react = __webpack_require__(54);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _firebase = __webpack_require__(103);
-
-var firebase = _interopRequireWildcard(_firebase);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9538,14 +9532,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var config = {
-    apiKey: 'AIzaSyALva3K4Kp6xkoaSkhtfXqTNe3ia8t3oJk',
-    authDomain: 'timewarp-c35ae.firebaseapp.com',
-    databaseURL: 'https://timewarp-c35ae.firebaseio.com',
-    storageBucket: 'timewarp-c35ae.appspot.com',
-    messagingSenderId: '1013479477821'
-};
 
 var TWButton = function (_Component) {
     _inherits(TWButton, _Component);
@@ -9558,9 +9544,6 @@ var TWButton = function (_Component) {
 
     _createClass(TWButton, [{
         key: 'render',
-
-        // firebase.initializeApp(config);
-        // const database = firebase.database();
         value: function render() {
             return _react2.default.createElement(
                 'button',
@@ -22829,15 +22812,66 @@ var _TWButton = __webpack_require__(82);
 
 var _TWButton2 = _interopRequireDefault(_TWButton);
 
+var _firebase = __webpack_require__(103);
+
+var firebase = _interopRequireWildcard(_firebase);
+
+var _dbconfig = __webpack_require__(190);
+
+var _dbconfig2 = _interopRequireDefault(_dbconfig);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function alertFunction() {
-    alert('TIMEEEEE!!!');
+firebase.initializeApp(_dbconfig2.default);
+
+function writeToDB(key, value) {
+    var database = firebase.database();
+
+    database.ref(key).set(value);
 }
 
-var button = _react2.default.createElement(_TWButton2.default, { onClick: alertFunction, text: 'Start' });
+function startWarping() {
+    var timestamp = new Date(Date.now());
+    var today = timestamp.toISOString().substring(0, 10);
+    var startTime = {
+        start: timestamp.getTime()
+    };
 
-_reactDom2.default.render(button, document.getElementById('root'));
+    writeToDB(today, startTime);
+}
+
+function stopWarping() {
+    var timestamp = new Date(Date.now());
+    var today = timestamp.toISOString().substring(0, 10);
+
+    var stopTime = timestamp.getTime();
+    var keyPath = today + '/stop';
+
+    writeToDB(keyPath, stopTime);
+}
+
+var rootElement = _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(_TWButton2.default, { onClick: startWarping, text: 'Start' }),
+    _react2.default.createElement(_TWButton2.default, { onClick: stopWarping, text: 'Stop' })
+);
+
+_reactDom2.default.render(rootElement, document.getElementById('root'));
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	"apiKey": "AIzaSyALva3K4Kp6xkoaSkhtfXqTNe3ia8t3oJk",
+	"authDomain": "timewarp-c35ae.firebaseapp.com",
+	"databaseURL": "https://timewarp-c35ae.firebaseio.com",
+	"storageBucket": "timewarp-c35ae.appspot.com",
+	"messagingSenderId": "1013479477821"
+};
 
 /***/ })
 /******/ ]);
