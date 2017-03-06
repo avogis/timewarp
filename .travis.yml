@@ -5,4 +5,5 @@ node_js:
 install:
   - npm install
 script:
-  - npm start && npm test
+  - nodemon server.js --exec babel-node --presets es2015,stage-2 &
+  - npm test
