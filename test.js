@@ -1,6 +1,6 @@
 import test from 'ava';
 import http from 'http';
-import {calculateDateBalance} from './app/warp_service';
+import { calculateDateBalance } from './app/lib';
 
 test('foo', t => {
     t.pass();

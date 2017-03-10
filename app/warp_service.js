@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 import DBCONFIG from '../.dbconfig.json';
 firebase.initializeApp(DBCONFIG['credentials']);
+import { calculateDateBalance } from './lib';
 
 function writeToDB(key, value) {
     const database = firebase.database();
@@ -40,12 +41,6 @@ function getDateBalance(today, stopDate) {
         return calculateDateBalance(startDate, stopDate);
     });
 
-}
-
-export function calculateDateBalance(startDate, stopDate){
-    const dateDiff = stopDate - startDate;
-    const minutes = dateDiff / 60000;
-    return Math.round(minutes - 480);
 }
 
 export function startWarping(){
