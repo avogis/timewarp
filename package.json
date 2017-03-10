@@ -38,6 +38,16 @@
     "type": "git",
     "url": "git+ssh://git@github.com/avogis/timewarp.git"
   },
+  "ava":{
+    "files": [
+      "test.js",
+      "!*.css"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
   "author": "Giulia Vergottini and Elizaveta Sigova",
   "license": "MIT",
   "bugs": {
